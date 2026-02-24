@@ -200,7 +200,7 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      <section className="relative min-h-[85vh] lg:h-screen flex items-center pt-16 overflow-hidden">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -218,7 +218,7 @@ export default function App() {
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div 
               initial={{ opacity: 0, x: -50 }}
@@ -230,18 +230,18 @@ export default function App() {
                   🚗 Traslado de equipos SIN CARGO
                 </span>
               </div>
-              <h1 className="text-5xl md:text-8xl font-black leading-[0.9] mb-6 tracking-tighter">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[0.9] mb-4 tracking-tighter">
                 TU EQUIPO <br />
                 <span className="text-brand-green italic">CALIBRADO.</span> <br />
                 TU OPERACIÓN <br />
                 <span className="text-brand-green italic">SEGURA.</span>
               </h1>
-              <p className="text-xl md:text-2xl text-zinc-400 mb-10 leading-relaxed max-w-xl">
+              <p className="text-base md:text-lg text-zinc-400 mb-8 leading-relaxed max-w-xl">
                 Especialistas en calibración de detectores de gas para la industria Oil & Gas. 
                 Garantizamos precisión técnica y cumplimiento normativo.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <a href={WHATSAPP_LINK} className="btn-primary text-lg px-8 py-4 group">
+                <a href={WHATSAPP_LINK} className="btn-primary text-base px-6 py-3 group">
                   Solicitar calibración ahora 
                   <motion.span
                     animate={{ x: [0, 5, 0] }}
@@ -250,7 +250,7 @@ export default function App() {
                     <ArrowRight className="w-5 h-5" />
                   </motion.span>
                 </a>
-                <a href="#servicios" className="flex items-center justify-center gap-2 px-8 py-4 border border-white/20 rounded-lg hover:bg-white/10 transition-all backdrop-blur-sm">
+                <a href="#servicios" className="flex items-center justify-center gap-2 px-6 py-3 border border-white/20 rounded-lg hover:bg-white/10 transition-all backdrop-blur-sm">
                   Ver servicios
                 </a>
               </div>
@@ -561,13 +561,13 @@ export default function App() {
       </footer>
 
       {/* Floating WhatsApp Button */}
-      <div className="fixed bottom-0 left-0 right-0 md:bottom-8 md:right-8 md:left-auto z-[100]">
+      <div className="fixed bottom-6 right-6 z-[100]">
         <a 
           href={WHATSAPP_FLOAT_LINK}
-          className="flex items-center justify-center gap-3 bg-brand-green text-black font-bold py-4 md:py-3 md:px-6 md:rounded-full animate-pulse-green shadow-[0_0_20px_rgba(0,191,99,0.4)] hover:scale-105 transition-transform"
+          className="flex items-center justify-center gap-2 bg-brand-green text-black font-bold py-2.5 px-4 rounded-full animate-pulse-green shadow-[0_0_20px_rgba(0,191,99,0.4)] hover:scale-105 transition-transform"
         >
-          <MessageCircle className="w-6 h-6" />
-          <span className="text-lg md:text-base">¡Consultanos ahora!</span>
+          <MessageCircle className="w-5 h-5" />
+          <span className="text-sm">¡Consultanos!</span>
         </a>
       </div>
     </div>
