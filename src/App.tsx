@@ -19,7 +19,8 @@ import {
   Flame, 
   Smartphone,
   Menu,
-  X
+  X,
+  Mail
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -27,9 +28,9 @@ const WHATSAPP_LINK = "https://wa.link/62av5e";
 const WHATSAPP_FLOAT_LINK = "https://wa.link/ykyxe9";
 
 const Logo = () => (
-  <div className="flex items-center gap-3">
+  <a href="https://infocemservices.com/" className="flex items-center gap-3 group">
     <div className="relative w-10 h-10 flex shrink-0">
-      <div className="absolute inset-0 bg-brand-green skew-x-[-20deg] translate-x-[-4px]"></div>
+      <div className="absolute inset-0 bg-brand-green skew-x-[-20deg] translate-x-[-4px] group-hover:scale-110 transition-transform"></div>
       <div className="absolute inset-0 bg-zinc-800 skew-x-[-20deg] translate-x-[4px]"></div>
     </div>
     <div className="flex flex-col leading-none">
@@ -40,7 +41,7 @@ const Logo = () => (
         Calibración de equipos y detectores
       </span>
     </div>
-  </div>
+  </a>
 );
 
 export default function App() {
@@ -517,7 +518,15 @@ export default function App() {
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-brand-green shrink-0" />
-                  <span>cemservices.com</span>
+                  <a href="https://infocemservices.com/" className="hover:text-brand-green transition-colors">infocemservices.com</a>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-brand-green shrink-0" />
+                  <a href="mailto:serviciotecnico@infocemservices.com" className="hover:text-brand-green transition-colors">serviciotecnico@infocemservices.com</a>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-brand-green shrink-0" />
+                  <a href="mailto:administracion@infocemservices.com" className="hover:text-brand-green transition-colors">administracion@infocemservices.com</a>
                 </li>
               </ul>
             </div>
