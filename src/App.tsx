@@ -63,19 +63,24 @@ export default function App() {
 
   const services = [
     {
-      title: "Calibración de Detectores de Gas",
+      title: "Calibración de Detectores de Gases",
       desc: "Calibración con gases patrón certificados. Trazabilidad completa y certificado post-calibración incluido.",
       icon: <Activity className="w-8 h-8 text-brand-green" />
     },
     {
       title: "Detectores Portátiles",
-      desc: "ALTAIR 5X, 4X, 2X y similares. Detección de H₂S, CO, O₂, LEL, SO₂ y VOCs certificada.",
+      desc: "Todas las marcas",
       icon: <Smartphone className="w-8 h-8 text-brand-green" />
     },
     {
-      title: "Detectores Fijos y de Llama",
-      desc: "ULTIMA X5000, S5000 y similares. Calibración para monitoreo continuo 24/7 en zonas clasificadas.",
-      icon: <Flame className="w-8 h-8 text-brand-green" />
+      title: "Certificación de equipos de medición",
+      desc: "Informes técnicos exhaustivos y certificación bajo normativas vigentes.",
+      icon: <ShieldCheck className="w-8 h-8 text-brand-green" />
+    },
+    {
+      title: "Anemómetros, Luxómetros, Telurímetros y Decibelímetros",
+      desc: "Servicio especializado de calibración y verificación técnica para instrumental de medición ambiental y eléctrica.",
+      icon: <Zap className="w-8 h-8 text-brand-green" />
     },
     {
       title: "Reparación y Mantenimiento",
@@ -84,8 +89,8 @@ export default function App() {
     },
     {
       title: "Bump Test / Verificación Funcional",
-      desc: "Prueba de respuesta real ante gas. Informe técnico de resultado incluido.",
-      icon: <ShieldCheck className="w-8 h-8 text-brand-green" />
+      desc: "Prueba de respuesta real ante Gases. Informe técnico de resultado incluido.",
+      icon: <Activity className="w-8 h-8 text-brand-green" />
     },
     {
       title: "Puesta en Marcha",
@@ -238,9 +243,8 @@ export default function App() {
                 TU OPERACIÓN <br />
                 <span className="text-brand-green italic">SEGURA.</span>
               </h1>
-              <p className="text-base md:text-lg text-zinc-400 mb-8 leading-relaxed mx-auto max-w-xl">
-                Especialistas en calibración de detectores de gas para la industria Oil & Gas. 
-                Garantizamos precisión técnica y cumplimiento normativo.
+              <p className="text-base md:text-lg text-zinc-400 mb-8 font-bold leading-relaxed mx-auto max-w-xl">
+                Equipos de medicion y detectores de gases!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href={WHATSAPP_LINK} className="btn-primary text-base px-6 py-3 group">
@@ -323,7 +327,7 @@ export default function App() {
       {/* Gases Section */}
       <section className="py-24 bg-zinc-950 border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">Detectores de todos los gases críticos en Oil & Gas</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-12">Detectores de todos los Gases críticos en Oil & Gases</h2>
           <div className="flex flex-wrap justify-center gap-4">
             {gases.map((gas, idx) => (
               <motion.span 
@@ -466,8 +470,8 @@ export default function App() {
                     onChange={(e) => setFormData({...formData, equipo: e.target.value})}
                   >
                     <option>Detector Portátil</option>
-                    <option>Detector Fijo</option>
-                    <option>Detector de Llama</option>
+                    <option>Certificación de Equipos</option>
+                    <option>Instrumental Especial (Anemómetros, etc.)</option>
                     <option>Reparación / Mantenimiento</option>
                     <option>Otro</option>
                   </select>
@@ -500,7 +504,7 @@ export default function App() {
                 <Logo />
               </div>
               <p className="text-zinc-400 max-w-sm mb-6">
-                Líderes en servicios técnicos para la industria Oil & Gas. 
+                Líderes en servicios técnicos para la industria Oil & Gases. 
                 Especialistas en seguridad y precisión.
               </p>
               <div className="flex gap-4">
