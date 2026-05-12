@@ -219,11 +219,12 @@ export default function App() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="flex justify-center items-center">
             <motion.div 
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
+              className="text-center max-w-4xl"
             >
               <div className="inline-block mb-6">
                 <span className="badge-animated">
@@ -236,11 +237,11 @@ export default function App() {
                 TU OPERACIÓN <br />
                 <span className="text-brand-green italic">SEGURA.</span>
               </h1>
-              <p className="text-base md:text-lg text-zinc-400 mb-8 leading-relaxed max-w-xl">
+              <p className="text-base md:text-lg text-zinc-400 mb-8 leading-relaxed mx-auto max-w-xl">
                 Especialistas en calibración de detectores de gas para la industria Oil & Gas. 
                 Garantizamos precisión técnica y cumplimiento normativo.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href={WHATSAPP_LINK} className="btn-primary text-base px-6 py-3 group">
                   Solicitar calibración ahora 
                   <motion.span
@@ -253,32 +254,6 @@ export default function App() {
                 <a href="#servicios" className="flex items-center justify-center gap-2 px-6 py-3 border border-white/20 rounded-lg hover:bg-white/10 transition-all backdrop-blur-sm">
                   Ver servicios
                 </a>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="hidden lg:block relative"
-            >
-              <div className="absolute inset-0 bg-brand-green/20 blur-[100px] rounded-full animate-pulse"></div>
-              <img 
-                src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800" 
-                alt="Equipment" 
-                className="relative z-10 rounded-3xl border border-white/10 shadow-2xl animate-float"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl z-20 animate-float" style={{ animationDelay: '-3s' }}>
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-brand-green rounded-full">
-                    <ShieldCheck className="w-8 h-8 text-black" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-zinc-400 font-bold uppercase tracking-widest">Certificación</p>
-                    <p className="text-xl font-black">ISO / ATEX</p>
-                  </div>
-                </div>
               </div>
             </motion.div>
           </div>
