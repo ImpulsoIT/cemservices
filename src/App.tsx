@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import CalibrationSimulator from './components/CalibrationSimulator';
+import cemOgImage from './assets/images/cem_og_image_1779819629777.png';
 
 const WHATSAPP_LINK = "https://wa.link/62av5e";
 const WHATSAPP_FLOAT_LINK = "https://wa.link/ykyxe9";
@@ -67,7 +68,7 @@ const BG_STATIONS = [
     shortLabel: "Neuquén Capital (Base)",
     desc: "Centro de soporte, calibración y distribución de detectores para toda la Patagonia.",
     video: "https://player.vimeo.com/external/498263725.hd.mp4?s=4bbfe2fdf7ffb6b7cb0dfa908cfdff96a1da9a48&profile_id=174&oauth2_token_id=57447761",
-    poster: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=1920",
+    poster: cemOgImage,
     badge: "Lab Neuquén Capital",
     location: "Neuquén Capital"
   }
@@ -75,16 +76,34 @@ const BG_STATIONS = [
 
 const Logo = () => (
   <a href="https://infocemservices.com/" className="flex items-center gap-3 group">
-    <div className="relative w-10 h-10 flex shrink-0">
-      <div className="absolute inset-0 bg-brand-primary skew-x-[-20deg] translate-x-[-4px] group-hover:scale-110 transition-transform"></div>
-      <div className="absolute inset-0 bg-brand-dark skew-x-[-20deg] translate-x-[4px]"></div>
+    {/* SVG Custom High-tech Shield Logo Icon */}
+    <div className="relative w-11 h-11 flex shrink-0">
+      <svg viewBox="0 0 100 100" className="w-full h-full transform transition-transform group-hover:rotate-6 duration-300">
+        <defs>
+          <linearGradient id="logoG" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00B450" />
+            <stop offset="100%" stop-color="#28F08C" />
+          </linearGradient>
+        </defs>
+        {/* Hexagon Shield representing Gas Safety and Precision */}
+        <polygon points="50,12 85,32 85,68 50,88 15,68 15,32" fill="#001428" stroke="url(#logoG)" strokeWidth="6" strokeLinejoin="round" />
+        {/* Core dynamic dot */}
+        <circle cx="50" cy="50" r="10" fill="#28F08C" className="animate-pulse" />
+        {/* Trace bonds */}
+        <line x1="50" y1="28" x2="50" y2="72" stroke="#28F08C" strokeWidth="2" strokeDasharray="3,3" opacity="0.5" />
+        <line x1="28" y1="50" x2="72" y2="50" stroke="#28F08C" strokeWidth="2" strokeDasharray="3,3" opacity="0.5" />
+        <circle cx="50" cy="28" r="4" fill="#FFFFFF" />
+        <circle cx="72" cy="50" r="4" fill="url(#logoG)" />
+        <circle cx="28" cy="50" r="4" fill="url(#logoG)" />
+      </svg>
     </div>
     <div className="flex flex-col leading-none">
-      <span className="text-lg sm:text-xl font-black tracking-tighter text-brand-dark group-hover:text-brand-primary transition-colors">
-        CEM<span className="text-brand-primary">SERVICES</span>
-      </span>
-      <span className="text-[7px] font-bold text-brand-muted uppercase tracking-widest mt-1">
-        Calibración de equipos y detectores
+      <div className="text-xl font-black tracking-tighter text-white group-hover:text-brand-primary transition-colors flex items-center">
+        <span>CEM</span>
+        <span className="text-brand-primary">SERVICES</span>
+      </div>
+      <span className="text-[7.5px] font-extrabold text-[#8E9AA8] uppercase tracking-widest mt-1">
+        Calibración y Certificación de Equipos
       </span>
     </div>
   </a>
@@ -320,27 +339,27 @@ export default function App() {
                 <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-brand-secondary/50"></div>
                 <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-brand-secondary/50"></div>
 
-                <div className="inline-block mb-4">
-                  <span className="badge-animated ring-4 ring-brand-primary/30">
-                    🚗 Traslado de equipos SIN CARGO en Neuquén Capital
+                <div className="inline-block mb-3">
+                  <span className="badge-animated ring-4 ring-brand-primary/30 text-[10px] xs:text-xs sm:text-sm px-2.5 sm:px-4 py-1">
+                    🚗 TRASLADO SIN CARGO EN NEUQUÉN
                   </span>
                 </div>
                 
-                <h1 className="text-3xl sm:text-5xl md:text-5xl lg:text-[4.2rem] font-black leading-[0.9] mb-6 tracking-tighter text-white uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+                <h1 className="text-[1.5rem] xs:text-[1.9rem] sm:text-5xl md:text-5xl lg:text-[4.2rem] font-black leading-[1.2] sm:leading-[1.0] lg:leading-[0.9] mb-6 tracking-tighter text-white uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
                   Medir con <br />
-                  <span className="text-brand-secondary italic tracking-tight underline decoration-white decoration-4 underline-offset-8">Precisión,</span> <br />
+                  <span className="text-brand-secondary italic tracking-tight underline decoration-white decoration-2 sm:decoration-4 underline-offset-4 sm:underline-offset-8">Precisión,</span> <br />
                   operar con <br />
-                  <span className="text-brand-secondary italic tracking-tight underline decoration-white decoration-4 underline-offset-8">confianza.</span>
+                  <span className="text-brand-secondary italic tracking-tight underline decoration-white decoration-2 sm:decoration-4 underline-offset-4 sm:underline-offset-8">confianza.</span>
                 </h1>
                 
                 <div className="flex flex-col gap-2 mb-8">
-                  <p className="text-lg sm:text-xl md:text-2xl text-brand-secondary font-black italic uppercase tracking-tighter drop-shadow-md">
+                  <p className="text-sm xs:text-base sm:text-xl md:text-2xl text-brand-secondary font-black italic uppercase tracking-tighter drop-shadow-md">
                     SOPORTE TÉCNICO & CALIBRACIÓN INDUSTRIAL
                   </p>
                   <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 sm:gap-4 text-xs sm:text-sm font-bold text-white/90 uppercase tracking-widest leading-relaxed drop-shadow-sm">
                     <span>CUENCA NEUQUINA & PATAGONIA</span>
                     <span className="hidden sm:inline-block w-2 h-2 rounded-full bg-brand-secondary shrink-0 animate-pulse"></span>
-                    <span className="text-brand-secondary font-black underline decoration-4 underline-offset-4">TRAZABILIDAD INTEGRAL</span>
+                    <span className="text-brand-secondary font-black underline decoration-2 sm:decoration-4 underline-offset-2 sm:underline-offset-4">TRAZABILIDAD INTEGRAL</span>
                   </div>
                 </div>
 
@@ -558,20 +577,20 @@ export default function App() {
             </div>
             
             <div className="w-full lg:w-1/2 relative px-2 sm:px-4 lg:px-0 mt-8 lg:mt-0">
-              <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
                 <img 
                   src="https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&q=80&w=800" 
                   alt="Industrial High Tech Worker" 
-                  className="w-full h-[320px] sm:h-[450px] lg:h-[600px] object-cover"
+                  className="w-full h-[360px] sm:h-[450px] lg:h-[600px] object-cover"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/20 to-transparent"></div>
-                <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8">
-                  <p className="text-white text-2xl sm:text-3xl font-black italic uppercase tracking-tighter">SEGURIDAD ANTE TODO</p>
-                  <p className="text-brand-secondary font-black tracking-widest uppercase text-xs sm:text-sm">OPERACIONES EN NEUQUÉN</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/30 to-transparent"></div>
+                <div className="absolute bottom-16 xs:bottom-20 sm:bottom-8 left-4 right-4 sm:left-8 sm:right-8 z-10">
+                  <p className="text-white text-xl xs:text-2xl sm:text-3xl font-black italic uppercase tracking-tighter leading-none mb-1">SEGURIDAD ANTE TODO</p>
+                  <p className="text-[#28F08C] font-black tracking-widest uppercase text-[10px] sm:text-sm leading-none">OPERACIONES EN NEUQUÉN</p>
                 </div>
               </div>
-              <div className="absolute -bottom-4 right-4 sm:-bottom-6 sm:-right-4 bg-brand-primary text-white px-5 py-3 sm:px-8 sm:py-5 rounded-2xl shadow-xl font-black transform rotate-3 border-2 border-brand-secondary text-sm sm:text-base tracking-wider uppercase">
+              <div className="absolute -bottom-4 right-4 sm:-bottom-6 sm:-right-4 bg-brand-primary text-slate-950 px-4 py-2.5 sm:px-8 sm:py-5 rounded-2xl shadow-xl font-black transform rotate-2 border-2 border-brand-secondary text-xs sm:text-base tracking-wider uppercase z-20">
                 TRAZABILIDAD TOTAL
               </div>
             </div>

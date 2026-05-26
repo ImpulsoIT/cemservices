@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00B450" />
+      <stop offset="100%" stop-color="#28F08C" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#28F08C" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#001428" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Deep High-tech Dark Blue Circular Base -->
+  <circle cx="256" cy="256" r="240" fill="#001428" stroke="url(#grad1)" stroke-width="12" />
+  
+  <!-- Subtle tech glowing energy radius -->
+  <circle cx="256" cy="256" r="220" fill="url(#glow)" />
+  
+  <!-- Calibration Target Crosshairs -->
+  <line x1="256" y1="40" x2="256" y2="472" stroke="#28F08C" stroke-width="2" stroke-dasharray="10, 10" opacity="0.3" />
+  <line x1="40" y1="256" x2="472" y2="256" stroke="#28F08C" stroke-width="2" stroke-dasharray="10, 10" opacity="0.3" />
+  <circle cx="256" cy="256" r="160" fill="none" stroke="#28F08C" stroke-width="2" stroke-dasharray="5, 10" opacity="0.2" />
+
+  <!-- Stylized Hexagon Shield representing Safety, Gas Containment & Calibration -->
+  <polygon points="256,105 380,177 380,323 256,395 132,323 132,177" fill="none" stroke="url(#grad1)" stroke-width="22" stroke-linejoin="round" />
+  
+  <!-- Glowing central Node structure for chemical trace detection -->
+  <!-- Gas molecules represented in a high-tech constellation -->
+  <circle cx="256" cy="190" r="22" fill="#FFFFFF" />
+  <circle cx="310" cy="285" r="18" fill="#28F08C" />
+  <circle cx="202" cy="285" r="18" fill="#00B450" />
+  
+  <!-- Molecular bonds -->
+  <line x1="256" y1="190" x2="310" y2="285" stroke="#FFFFFF" stroke-width="6" opacity="0.9" />
+  <line x1="256" y1="190" x2="202" y2="285" stroke="#FFFFFF" stroke-width="6" opacity="0.9" />
+  <line x1="202" y1="285" x2="310" y2="285" stroke="#28F08C" stroke-width="4" stroke-dasharray="4, 4" opacity="0.7" />
+
+  <!-- Inner diagnostic sweeps -->
+  <path d="M 256 140 A 95 95 0 0 1 351 235" fill="none" stroke="#28F08C" stroke-width="8" stroke-linecap="round" />
+  <path d="M 256 370 A 95 95 0 0 1 161 275" fill="none" stroke="#00B450" stroke-width="8" stroke-linecap="round" />
+  
+  <!-- Beautiful glowing core -->
+  <circle cx="256" cy="255" r="12" fill="#FFFFFF" />
+</svg>
