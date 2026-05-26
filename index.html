@@ -1,6 +1,28 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      (function() {
+        var originalFetch = window.fetch;
+        if (originalFetch) {
+          var currentFetch = originalFetch;
+          try {
+            Object.defineProperty(window, 'fetch', {
+              get: function() {
+                return currentFetch;
+              },
+              set: function(val) {
+                currentFetch = val;
+              },
+              configurable: true,
+              enumerable: true
+            });
+          } catch (e) {
+            console.warn('Failed to define window.fetch property wrapper:', e);
+          }
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CEM Services - Tu aliado en servicios</title>

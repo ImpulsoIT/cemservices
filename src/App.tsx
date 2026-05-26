@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   ShieldCheck, 
   Truck, 
@@ -25,6 +25,7 @@ import {
   Eye
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import CalibrationSimulator from './components/CalibrationSimulator';
 
 const WHATSAPP_LINK = "https://wa.link/62av5e";
 const WHATSAPP_FLOAT_LINK = "https://wa.link/ykyxe9";
@@ -59,6 +60,16 @@ const BG_STATIONS = [
     poster: "https://images.unsplash.com/photo-1542060748-10c28b629f6f?auto=format&fit=crop&q=80&w=1920",
     badge: "Procesamiento de Gas",
     location: "Plaza Huincul, Neuquén"
+  },
+  {
+    id: "neuquen-capital",
+    label: "LOGÍSTICA Y BASE NEUQUÉN CAPITAL",
+    shortLabel: "Neuquén Capital (Base)",
+    desc: "Centro de soporte, calibración y distribución de detectores para toda la Patagonia.",
+    video: "https://player.vimeo.com/external/498263725.hd.mp4?s=4bbfe2fdf7ffb6b7cb0dfa908cfdff96a1da9a48&profile_id=174&oauth2_token_id=57447761",
+    poster: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=1920",
+    badge: "Lab Neuquén Capital",
+    location: "Neuquén Capital"
   }
 ];
 
@@ -82,7 +93,17 @@ const Logo = () => (
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentBgIdx, setCurrentBgIdx] = useState(0);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
   const activeBg = BG_STATIONS[currentBgIdx];
+
+  // Auto-advance background feeds every 12 seconds for spectacular ambiance unless manually override
+  useEffect(() => {
+    if (!isAutoPlay) return;
+    const interval = setInterval(() => {
+      setCurrentBgIdx(prev => (prev + 1) % BG_STATIONS.length);
+    }, 12000);
+    return () => clearInterval(interval);
+  }, [isAutoPlay]);
 
   const [formData, setFormData] = useState({
     nombre: '',
@@ -254,7 +275,7 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-[95vh] lg:min-h-screen flex flex-col justify-center pt-24 pb-12 overflow-hidden">
+      <section className="relative min-h-[95vh] lg:min-h-screen flex flex-col justify-center pt-24 pb-12 overflow-hidden bg-brand-dark">
         {/* Background Video with Fallback Image and Overlay */}
         <div className="absolute inset-0 z-0">
           <video
@@ -263,7 +284,7 @@ export default function App() {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-20 filter brightness-90 transition-opacity duration-1000"
+            className="w-full h-full object-cover opacity-75 filter brightness-[0.70] contrast-[1.20] saturate-[1.3] transition-opacity duration-1000"
             poster={activeBg.poster}
           >
             <source src={activeBg.video} type="video/mp4" />
@@ -274,105 +295,153 @@ export default function App() {
               referrerPolicy="no-referrer"
             />
           </video>
-          {/* Subtle high-tech grid matrix overlay for an industrial monitoring aesthetic */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#00c16508_1px,transparent_1px),linear-gradient(to_bottom,#00c16508_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-bg via-brand-bg/70 to-brand-bg/10"></div>
+          {/* High-tech grid matrix overlay for an industrial monitoring aesthetic */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#00c16515_1px,transparent_1px),linear-gradient(to_bottom,#00c16515_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+          {/* Crimson & Green subtle warning heat map layers for a realistic oilfield asset feel */}
+          <div className="absolute top-[10%] left-[20%] w-[40vw] h-[40vw] rounded-full bg-[#00B450]/5 filter blur-[120px] pointer-events-none animate-pulse"></div>
+          {/* Gradient to transition from dark hero to light services background smoothly */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F0F0F0] via-[#001428]/95 to-[#001428]/55"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-4">
-          <div className="flex justify-center items-center">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-center max-w-4xl"
-            >
-              <div className="inline-block mb-6">
-                <span className="badge-animated ring-4 ring-brand-primary/20">
-                  🚗 Traslado de equipos SIN CARGO
-                </span>
-              </div>
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.85] mb-6 tracking-tighter text-brand-dark uppercase">
-                Medir con <br />
-                <span className="text-brand-primary italic tracking-tight underline decoration-brand-secondary decoration-4 underline-offset-8">Precisión,</span> <br />
-                operar con <br />
-                <span className="text-brand-primary italic tracking-tight underline decoration-brand-secondary decoration-4 underline-offset-8">confianza.</span>
-              </h1>
-              
-              <div className="flex flex-col gap-2 mb-10">
-                <p className="text-xl sm:text-2xl md:text-3xl text-brand-dark font-black italic uppercase tracking-tighter">
-                  SEGURIDAD ANTE TODO
-                </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm md:text-lg font-bold text-brand-muted uppercase tracking-widest leading-relaxed">
-                  <span>OPERACIONES EN NEUQUÉN</span>
-                  <span className="hidden sm:inline-block w-2 h-2 rounded-full bg-brand-primary shrink-0"></span>
-                  <span className="text-brand-primary font-black underline decoration-4 underline-offset-4">TRAZABILIDAD TOTAL</span>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Left Column: Visual pitch and high-tech Sentinel video monitor feeds */}
+            <div className="lg:col-span-7 flex flex-col justify-center text-center lg:text-left">
+              <motion.div 
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="bg-slate-950/70 border border-white/10 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl relative mb-8"
+              >
+                {/* Scientific target marks to emulate a digital monitoring telemetry window */}
+                <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-brand-secondary/50"></div>
+                <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-brand-secondary/50"></div>
+                <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-brand-secondary/50"></div>
+                <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-brand-secondary/50"></div>
+
+                <div className="inline-block mb-4">
+                  <span className="badge-animated ring-4 ring-brand-primary/30">
+                    🚗 Traslado de equipos SIN CARGO en Neuquén Capital
+                  </span>
                 </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4 max-w-lg mx-auto sm:max-w-none sm:px-0">
-                <a href={WHATSAPP_LINK} className="btn-primary w-full sm:w-auto text-lg sm:text-xl px-6 py-4 sm:px-10 sm:py-5 group shadow-2xl shadow-brand-primary/20 ring-4 ring-brand-dark/5 justify-center">
-                  Conocer más
-                  <motion.span
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.5 }}
-                  >
-                    <ArrowRight className="w-6 h-6" />
-                  </motion.span>
-                </a>
-                <a href="#servicios" className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-4 sm:px-10 sm:py-5 border-2 border-brand-dark text-brand-dark font-black rounded-lg hover:bg-brand-dark hover:text-white transition-all backdrop-blur-sm shadow-md text-lg sm:text-xl">
-                  Operación y control
-                </a>
-              </div>
-
-              {/* Interactive Camera Feeds (Vaca Muerta, Neuquén) */}
-              <div className="mt-12 p-1 bg-brand-dark/10 backdrop-blur-md rounded-2xl border border-brand-dark/5 max-w-3xl mx-auto shadow-sm">
-                <div className="px-4 py-2.5 flex items-center justify-between border-b border-brand-dark/5 bg-brand-dark/5 rounded-t-2xl">
-                  <div className="flex items-center gap-2 text-xs font-bold text-brand-dark tracking-wider uppercase">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
-                    </span>
-                    Fondo Actual: {activeBg.badge} ({activeBg.location})
+                
+                <h1 className="text-3xl sm:text-5xl md:text-5xl lg:text-[4.2rem] font-black leading-[0.9] mb-6 tracking-tighter text-white uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+                  Medir con <br />
+                  <span className="text-brand-secondary italic tracking-tight underline decoration-white decoration-4 underline-offset-8">Precisión,</span> <br />
+                  operar con <br />
+                  <span className="text-brand-secondary italic tracking-tight underline decoration-white decoration-4 underline-offset-8">confianza.</span>
+                </h1>
+                
+                <div className="flex flex-col gap-2 mb-8">
+                  <p className="text-lg sm:text-xl md:text-2xl text-brand-secondary font-black italic uppercase tracking-tighter drop-shadow-md">
+                    SOPORTE TÉCNICO & CALIBRACIÓN INDUSTRIAL
+                  </p>
+                  <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 sm:gap-4 text-xs sm:text-sm font-bold text-white/90 uppercase tracking-widest leading-relaxed drop-shadow-sm">
+                    <span>CUENCA NEUQUINA & PATAGONIA</span>
+                    <span className="hidden sm:inline-block w-2 h-2 rounded-full bg-brand-secondary shrink-0 animate-pulse"></span>
+                    <span className="text-brand-secondary font-black underline decoration-4 underline-offset-4">TRAZABILIDAD INTEGRAL</span>
                   </div>
-                  <div className="text-[9px] sm:text-[10px] font-mono text-brand-muted uppercase tracking-widest bg-brand-surface px-2 py-0.5 rounded border border-brand-muted/20">
-                    DIAG-FEED
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center max-w-md mx-auto lg:max-w-none">
+                  <a href={WHATSAPP_LINK} className="btn-primary w-full sm:w-auto text-base sm:text-lg px-8 py-4 group shadow-2xl shadow-brand-primary/40 ring-4 ring-white/10 justify-center">
+                    Enviar WhatsApp
+                    <motion.span
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.5 }}
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.span>
+                  </a>
+                  <a href="#servicios" className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 border-2 border-white text-white font-black rounded-lg hover:bg-white hover:text-brand-dark transition-all backdrop-blur-sm shadow-md text-base sm:text-lg">
+                    Ver Servicios
+                  </a>
+                </div>
+              </motion.div>
+
+              {/* Interactive Camera Feeds (Vaca Muerta, Neuquén base) */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="w-full text-left p-1 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl"
+              >
+                <div className="px-4 py-2.5 flex items-center justify-between border-b border-white/15 bg-slate-950/40 rounded-t-2xl">
+                  <div className="flex items-center gap-2 text-xs font-bold text-white tracking-wider uppercase">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-secondary opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-secondary"></span>
+                    </span>
+                    <span>SENTINEL FEED: <span className="text-brand-secondary">{activeBg.badge} ({activeBg.location})</span></span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {isAutoPlay && (
+                      <span className="text-[8px] text-brand-secondary bg-brand-primary/10 border border-brand-primary/30 px-1.5 py-0.5 rounded uppercase animate-pulse">
+                        Auto-Secuencia
+                      </span>
+                    )}
+                    <span className="text-[9px] font-mono text-white/70 uppercase tracking-widest bg-white/10 px-2 py-0.5 rounded border border-white/10">
+                      DIAG-CONSOLE
+                    </span>
                   </div>
                 </div>
                 
-                <div className="p-3 grid grid-cols-1 sm:grid-cols-3 gap-2 bg-brand-surface/65 rounded-b-2xl">
+                <div className="p-2 grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-black/60 rounded-b-2xl">
                   {BG_STATIONS.map((station, i) => {
                     const isActive = currentBgIdx === i;
                     return (
                       <button
                         key={station.id}
                         type="button"
-                        onClick={() => setCurrentBgIdx(i)}
-                        className={`group px-3 py-2.5 rounded-xl text-left border transition-all duration-300 ${
+                        onClick={() => {
+                          setCurrentBgIdx(i);
+                          setIsAutoPlay(false); // Pause auto rotation upon user interaction
+                        }}
+                        className={`group px-2.5 py-2 rounded-xl text-left border transition-all duration-300 flex flex-col justify-between ${
                           isActive 
-                            ? "bg-brand-dark text-white border-brand-primary shadow-md scale-[1.02]" 
-                            : "bg-white/80 hover:bg-white text-brand-dark hover:text-brand-primary border-brand-muted/40 hover:border-brand-primary/50"
+                            ? "bg-brand-primary text-slate-950 border-brand-secondary shadow-md scale-[1.02]" 
+                            : "bg-white/5 hover:bg-white/10 text-white/90 border-white/10 hover:border-brand-secondary/30"
                         }`}
                       >
-                        <div className="flex items-center justify-between gap-1 mb-1">
-                          <span className={`text-[9.5px] font-black uppercase tracking-wider ${isActive ? "text-brand-primary" : "text-brand-muted group-hover:text-brand-primary"}`}>
+                        <div className="flex items-center justify-between gap-1 w-full mb-1">
+                          <span className={`text-[9px] font-black uppercase tracking-wider truncate shrink-1 ${isActive ? "text-slate-950" : "text-white/60 group-hover:text-brand-primary"}`}>
                             {station.shortLabel}
                           </span>
                           {isActive ? (
-                            <Eye className="w-3.5 h-3.5 text-brand-primary animate-pulse shrink-0" />
+                            <Eye className="w-3.5 h-3.5 text-slate-950 animate-pulse shrink-0" />
                           ) : (
-                            <Video className="w-3.5 h-3.5 text-brand-muted/60 group-hover:text-brand-primary transition-colors shrink-0" />
+                            <Video className="w-3.5 h-3.5 text-white/40 group-hover:text-[#28F08C] transition-colors shrink-0" />
                           )}
                         </div>
-                        <p className={`text-[9px] font-medium leading-normal line-clamp-1 sm:truncate ${isActive ? "text-white/70" : "text-brand-text"}`}>
-                          {station.desc}
+                        <p className={`text-[8px] leading-tight font-medium line-clamp-1 truncate ${isActive ? "text-slate-900/80" : "text-white/55"}`}>
+                          {station.location}
                         </p>
                       </button>
                     );
                   })}
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
+
+            {/* Right Column: High-tech Multigas Detector Calibration Simulator Widget */}
+            <div className="lg:col-span-5 flex justify-center items-center">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.93, x: 20 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="w-full relative"
+              >
+                {/* Floating indicator explaining what this is */}
+                <div className="absolute -top-3 left-6 z-20 bg-brand-primary text-white font-black text-[9px] px-3 py-1 rounded-full uppercase tracking-widest shadow-md flex items-center gap-1">
+                  <span>PRUEBA INTERACTIVA</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                </div>
+                
+                <CalibrationSimulator />
+              </motion.div>
+            </div>
+
           </div>
         </div>
       </section>
