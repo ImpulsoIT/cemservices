@@ -20,12 +20,47 @@ import {
   Smartphone,
   Menu,
   X,
-  Mail
+  Mail,
+  Video,
+  Eye
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const WHATSAPP_LINK = "https://wa.link/62av5e";
 const WHATSAPP_FLOAT_LINK = "https://wa.link/ykyxe9";
+
+const BG_STATIONS = [
+  {
+    id: "vaca-muerta",
+    label: "POZO / DRILL VACA MUERTA",
+    shortLabel: "Vaca Muerta (Drone)",
+    desc: "Yacimiento en la estepa de Añelo, región núcleo de la cuenca neuquina.",
+    video: "https://player.vimeo.com/external/510850877.hd.mp4?s=d4f20387498c09a89c9fdcf6ec9bb2807e494a8f&profile_id=170&oauth2_token_id=57447761",
+    poster: "https://images.unsplash.com/photo-1441850688944-1b9bb48fc43c?auto=format&fit=crop&q=80&w=1920",
+    badge: "Drone Vaca Muerta",
+    location: "Añelo, Neuquén"
+  },
+  {
+    id: "extraccion",
+    label: "BOMBEO ACTIVO / CIGÜEÑA",
+    shortLabel: "Atardecer Industrial",
+    desc: "Cigüeña de extracción petrolera activa durante el atardecer patagónico.",
+    video: "https://player.vimeo.com/external/371433846.hd.mp4?s=2bc4b840e698188bd2f0fa9b93ee6fed15ae50f8&profile_id=174&oauth2_token_id=57447761",
+    poster: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1920",
+    badge: "Extracción Loma Campana",
+    location: "Cuenca Neuquina"
+  },
+  {
+    id: "refineria",
+    label: "PLANTA REGULADORA DE GAS",
+    shortLabel: "Planta de Gas & Petróleo",
+    desc: "Ductos de flujo, válvulas y colectores de gas natural en Plaza Huincul.",
+    video: "https://player.vimeo.com/external/459389137.hd.mp4?s=8039dfc823f6e1cca24c965ea4e411b43d3b7bbb&profile_id=170&oauth2_token_id=57447761",
+    poster: "https://images.unsplash.com/photo-1542060748-10c28b629f6f?auto=format&fit=crop&q=80&w=1920",
+    badge: "Procesamiento de Gas",
+    location: "Plaza Huincul, Neuquén"
+  }
+];
 
 const Logo = () => (
   <a href="https://infocemservices.com/" className="flex items-center gap-3 group">
@@ -34,7 +69,7 @@ const Logo = () => (
       <div className="absolute inset-0 bg-brand-dark skew-x-[-20deg] translate-x-[4px]"></div>
     </div>
     <div className="flex flex-col leading-none">
-      <span className="text-xl font-black tracking-tighter text-brand-dark group-hover:text-brand-primary transition-colors">
+      <span className="text-lg sm:text-xl font-black tracking-tighter text-brand-dark group-hover:text-brand-primary transition-colors">
         CEM<span className="text-brand-primary">SERVICES</span>
       </span>
       <span className="text-[7px] font-bold text-brand-muted uppercase tracking-widest mt-1">
@@ -46,6 +81,9 @@ const Logo = () => (
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentBgIdx, setCurrentBgIdx] = useState(0);
+  const activeBg = BG_STATIONS[currentBgIdx];
+
   const [formData, setFormData] = useState({
     nombre: '',
     empresa: '',
@@ -193,15 +231,21 @@ export default function App() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-brand-dark border-b border-white/10 overflow-hidden"
+              className="md:hidden bg-brand-dark/95 border-b border-white/10 backdrop-blur-lg overflow-hidden"
             >
-              <div className="px-4 py-6 space-y-4">
-                <a href="#servicios" onClick={() => setIsMenuOpen(false)} className="block text-lg font-black text-white uppercase tracking-tight">Servicios</a>
-                <a href="#diferencial" onClick={() => setIsMenuOpen(false)} className="block text-lg font-black text-white uppercase tracking-tight">Diferencial</a>
-                <a href="#ubicacion" onClick={() => setIsMenuOpen(false)} className="block text-lg font-black text-white uppercase tracking-tight">Ubicación</a>
-                <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="block text-lg font-black text-white uppercase tracking-tight">Contacto</a>
-                <a href={WHATSAPP_LINK} className="btn-primary w-full text-center py-4">
-                  Contactar ahora
+              <div className="px-6 py-8 space-y-5">
+                {['servicios', 'diferencial', 'ubicacion', 'contacto'].map((sec) => (
+                  <a 
+                    key={sec}
+                    href={`#${sec}`} 
+                    onClick={() => setIsMenuOpen(false)} 
+                    className="block text-xl font-black text-white uppercase tracking-wider hover:text-brand-primary transition-colors py-2 border-b border-white/5 last:border-0"
+                  >
+                    {sec === 'ubicacion' ? 'Ubicación' : sec}
+                  </a>
+                ))}
+                <a href={WHATSAPP_LINK} className="btn-primary w-full text-center py-4 text-base font-black shadow-lg">
+                  Contactar ahora (WhatsApp)
                 </a>
               </div>
             </motion.div>
@@ -210,19 +254,32 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] lg:h-screen flex items-center pt-16 overflow-hidden">
-        {/* Background Image with Overlay */}
+      <section className="relative min-h-[95vh] lg:min-h-screen flex flex-col justify-center pt-24 pb-12 overflow-hidden">
+        {/* Background Video with Fallback Image and Overlay */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&q=80&w=1920" 
-            alt="Impactful Oil & Gas Refining and Drilling Operations" 
-            className="w-full h-full object-cover opacity-30 transform scale-105"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent"></div>
+          <video
+            key={activeBg.id}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-20 filter brightness-90 transition-opacity duration-1000"
+            poster={activeBg.poster}
+          >
+            <source src={activeBg.video} type="video/mp4" />
+            <img 
+              src={activeBg.poster} 
+              alt={activeBg.desc} 
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          </video>
+          {/* Subtle high-tech grid matrix overlay for an industrial monitoring aesthetic */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#00c16508_1px,transparent_1px),linear-gradient(to_bottom,#00c16508_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-bg via-brand-bg/70 to-brand-bg/10"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-0">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-4">
           <div className="flex justify-center items-center">
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
@@ -235,7 +292,7 @@ export default function App() {
                   🚗 Traslado de equipos SIN CARGO
                 </span>
               </div>
-              <h1 className="text-5xl md:text-6xl lg:text-8xl font-black leading-[0.85] mb-6 tracking-tighter text-brand-dark uppercase">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.85] mb-6 tracking-tighter text-brand-dark uppercase">
                 Medir con <br />
                 <span className="text-brand-primary italic tracking-tight underline decoration-brand-secondary decoration-4 underline-offset-8">Precisión,</span> <br />
                 operar con <br />
@@ -243,18 +300,18 @@ export default function App() {
               </h1>
               
               <div className="flex flex-col gap-2 mb-10">
-                <p className="text-2xl md:text-3xl text-brand-dark font-black italic uppercase tracking-tighter">
+                <p className="text-xl sm:text-2xl md:text-3xl text-brand-dark font-black italic uppercase tracking-tighter">
                   SEGURIDAD ANTE TODO
                 </p>
-                <div className="flex items-center justify-center gap-4 text-sm md:text-lg font-bold text-brand-muted uppercase tracking-widest">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm md:text-lg font-bold text-brand-muted uppercase tracking-widest leading-relaxed">
                   <span>OPERACIONES EN NEUQUÉN</span>
-                  <span className="w-2 h-2 rounded-full bg-brand-primary"></span>
+                  <span className="hidden sm:inline-block w-2 h-2 rounded-full bg-brand-primary shrink-0"></span>
                   <span className="text-brand-primary font-black underline decoration-4 underline-offset-4">TRAZABILIDAD TOTAL</span>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href={WHATSAPP_LINK} className="btn-primary text-xl px-10 py-5 group shadow-2xl shadow-brand-primary/20 ring-4 ring-brand-dark/5">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4 max-w-lg mx-auto sm:max-w-none sm:px-0">
+                <a href={WHATSAPP_LINK} className="btn-primary w-full sm:w-auto text-lg sm:text-xl px-6 py-4 sm:px-10 sm:py-5 group shadow-2xl shadow-brand-primary/20 ring-4 ring-brand-dark/5 justify-center">
                   Conocer más
                   <motion.span
                     animate={{ x: [0, 5, 0] }}
@@ -263,9 +320,57 @@ export default function App() {
                     <ArrowRight className="w-6 h-6" />
                   </motion.span>
                 </a>
-                <a href="#servicios" className="flex items-center justify-center gap-2 px-10 py-5 border-2 border-brand-dark text-brand-dark font-black rounded-lg hover:bg-brand-dark hover:text-white transition-all backdrop-blur-sm shadow-md">
+                <a href="#servicios" className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-4 sm:px-10 sm:py-5 border-2 border-brand-dark text-brand-dark font-black rounded-lg hover:bg-brand-dark hover:text-white transition-all backdrop-blur-sm shadow-md text-lg sm:text-xl">
                   Operación y control
                 </a>
+              </div>
+
+              {/* Interactive Camera Feeds (Vaca Muerta, Neuquén) */}
+              <div className="mt-12 p-1 bg-brand-dark/10 backdrop-blur-md rounded-2xl border border-brand-dark/5 max-w-3xl mx-auto shadow-sm">
+                <div className="px-4 py-2.5 flex items-center justify-between border-b border-brand-dark/5 bg-brand-dark/5 rounded-t-2xl">
+                  <div className="flex items-center gap-2 text-xs font-bold text-brand-dark tracking-wider uppercase">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
+                    </span>
+                    Fondo Actual: {activeBg.badge} ({activeBg.location})
+                  </div>
+                  <div className="text-[9px] sm:text-[10px] font-mono text-brand-muted uppercase tracking-widest bg-brand-surface px-2 py-0.5 rounded border border-brand-muted/20">
+                    DIAG-FEED
+                  </div>
+                </div>
+                
+                <div className="p-3 grid grid-cols-1 sm:grid-cols-3 gap-2 bg-brand-surface/65 rounded-b-2xl">
+                  {BG_STATIONS.map((station, i) => {
+                    const isActive = currentBgIdx === i;
+                    return (
+                      <button
+                        key={station.id}
+                        type="button"
+                        onClick={() => setCurrentBgIdx(i)}
+                        className={`group px-3 py-2.5 rounded-xl text-left border transition-all duration-300 ${
+                          isActive 
+                            ? "bg-brand-dark text-white border-brand-primary shadow-md scale-[1.02]" 
+                            : "bg-white/80 hover:bg-white text-brand-dark hover:text-brand-primary border-brand-muted/40 hover:border-brand-primary/50"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-1 mb-1">
+                          <span className={`text-[9.5px] font-black uppercase tracking-wider ${isActive ? "text-brand-primary" : "text-brand-muted group-hover:text-brand-primary"}`}>
+                            {station.shortLabel}
+                          </span>
+                          {isActive ? (
+                            <Eye className="w-3.5 h-3.5 text-brand-primary animate-pulse shrink-0" />
+                          ) : (
+                            <Video className="w-3.5 h-3.5 text-brand-muted/60 group-hover:text-brand-primary transition-colors shrink-0" />
+                          )}
+                        </div>
+                        <p className={`text-[9px] font-medium leading-normal line-clamp-1 sm:truncate ${isActive ? "text-white/70" : "text-brand-text"}`}>
+                          {station.desc}
+                        </p>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </motion.div>
           </div>
@@ -279,14 +384,14 @@ export default function App() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase">Nuestro <span className="text-brand-primary">Servicio</span></h2>
-            <p className="text-brand-text max-w-2xl mx-auto text-lg mb-4 font-medium">Asegurar precisión, trazabilidad y eficiencia en cada intervención. Integramos tecnología, método y experiencia para que tus operaciones en Neuquén trabajen con equipos confiables.</p>
-            <p className="text-brand-dark/60 max-w-2xl mx-auto italic font-bold">Nuestro enfoque es simple: cumplir normas, optimizar tiempos y acompañarte con soporte técnico claro.</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tighter uppercase">Nuestro <span className="text-brand-primary">Servicio</span></h2>
+            <p className="text-brand-text max-w-2xl mx-auto text-base sm:text-lg mb-4 font-medium leading-relaxed">Asegurar precisión, trazabilidad y eficiencia en cada intervención. Integramos tecnología, método y experiencia para que tus operaciones en Neuquén trabajen con equipos confiables.</p>
+            <p className="text-brand-dark/60 max-w-2xl mx-auto text-sm sm:text-base italic font-bold">Nuestro enfoque es simple: cumplir normas, optimizar tiempos y acompañarte con soporte técnico claro.</p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {services.map((service, idx) => (
               <motion.div 
                 key={idx}
@@ -295,7 +400,7 @@ export default function App() {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
                 whileHover={{ y: -10 }}
-                className="bg-brand-bg p-8 rounded-3xl group transition-all duration-500 border border-brand-muted hover:border-brand-primary hover:shadow-xl"
+                className="bg-brand-bg p-6 sm:p-8 rounded-3xl group transition-all duration-500 border border-brand-muted hover:border-brand-primary hover:shadow-xl"
               >
                 <div className="mb-6 p-4 bg-brand-primary/5 rounded-2xl inline-block group-hover:bg-brand-primary group-hover:text-white transition-all duration-500">
                   {React.cloneElement(service.icon as React.ReactElement, { className: "w-10 h-10 transition-colors group-hover:text-white" })}
@@ -311,11 +416,11 @@ export default function App() {
       {/* Beneficios Section */}
       <section id="diferencial" className="py-24 bg-brand-bg relative text-brand-dark border-t border-brand-muted/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter">Beneficios de nuestro <span className="text-brand-primary">servicio</span></h2>
-            <p className="text-brand-text max-w-3xl mx-auto text-xl font-medium">La calibración profesional de tus detectores de Gases te permite trabajar con mayor seguridad, eficiencia y respaldo documental ante auditorías en la cuenca de Vaca Muerta.</p>
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter">Beneficios de nuestro <span className="text-brand-primary">servicio</span></h2>
+            <p className="text-brand-text max-w-3xl mx-auto text-lg sm:text-xl font-medium leading-relaxed">La calibración profesional de tus detectores de Gases te permite trabajar con mayor seguridad, eficiencia and respaldo documental ante auditorías en la cuenca de Vaca Muerta.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center font-bold">
             {differentials.map((diff, idx) => (
               <motion.div 
                 key={idx}
@@ -323,7 +428,7 @@ export default function App() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.2 }}
-                className="flex flex-col items-center group p-8 rounded-3xl bg-brand-surface border border-brand-muted/30 hover:border-brand-primary transition-all duration-500"
+                className="flex flex-col items-center group p-6 sm:p-8 rounded-3xl bg-brand-surface border border-brand-muted/30 hover:border-brand-primary transition-all duration-500"
               >
                 <div className="p-6 rounded-full bg-brand-bg mb-6 group-hover:bg-brand-primary transition-all duration-500 group-hover:rotate-12 group-hover:shadow-lg">
                   {React.cloneElement(diff.icon as React.ReactElement, { className: "w-12 h-12 text-brand-primary group-hover:text-white transition-colors" })}
@@ -337,15 +442,15 @@ export default function App() {
       </section>
 
       {/* Gases Section */}
-      <section className="py-24 bg-brand-surface border-y border-brand-muted/20">
+      <section className="py-16 sm:py-24 bg-brand-surface border-y border-brand-muted/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-brand-dark">
-          <h2 className="text-3xl md:text-4xl font-black mb-12 uppercase tracking-tighter">Gases críticos que <span className="text-brand-primary">calibramos</span></h2>
-          <div className="flex flex-wrap justify-center gap-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-10 sm:mb-12 uppercase tracking-tighter">Gases críticos que <span className="text-brand-primary">calibramos</span></h2>
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
             {gases.map((gas, idx) => (
               <motion.span 
                 key={idx}
                 whileHover={{ scale: 1.1, backgroundColor: "#00B450", color: "#FFFFFF" }}
-                className="px-10 py-4 bg-brand-bg border border-brand-muted text-brand-primary rounded-full text-xl font-black shadow-sm transition-colors cursor-default"
+                className="px-6 py-3 sm:px-10 sm:py-4 bg-brand-bg border border-brand-muted text-brand-primary rounded-full text-base sm:text-xl font-black shadow-sm transition-colors cursor-default"
               >
                 {gas}
               </motion.span>
@@ -355,49 +460,49 @@ export default function App() {
       </section>
 
       {/* Why Choose Us / ¿Por qué elegirnos? */}
-      <section className="py-24 bg-brand-bg text-brand-dark border-t border-brand-muted/10">
+      <section className="py-16 sm:py-24 bg-brand-bg text-brand-dark border-t border-brand-muted/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-16 items-center">
-            <div className="lg:w-1/2">
-              <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter uppercase">¿Por qué <span className="text-brand-primary">elegirnos?</span></h2>
-              <p className="text-xl text-brand-text font-medium leading-relaxed mb-8 italic">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+            <div className="w-full lg:w-1/2">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tighter uppercase text-center lg:text-left">¿Por qué <span className="text-brand-primary">elegirnos?</span></h2>
+              <p className="text-lg sm:text-xl text-brand-text font-medium leading-relaxed mb-8 italic text-center lg:text-left">
                 Precisión, eficiencia y soporte real. La calibración de detectores de Gases es esencial para garantizar la seguridad de tu entorno y la precisión de las mediciones técnicos para Vaca Muerta, Neuquén.
               </p>
               
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {[
-                  { icon: <ShieldCheck className="w-8 h-8" />, title: "Calibración certificada", desc: "Procesos trazables y cumplimiento normativo para garantizar precisión en cada instrumento." },
-                  { icon: <CheckCircle2 className="w-8 h-8" />, title: "Compromiso industrial", desc: "Equipos y protocolos listos para condiciones exigentes en la industria energética de la región." },
-                  { icon: <Activity className="w-8 h-8" />, title: "Soporte especializado", desc: "Reportes claros, tiempos comprometidos y asistencia técnica directa sin intermediarios." }
+                  { icon: <ShieldCheck className="w-8 h-8 shrink-0" />, title: "Calibración certificada", desc: "Procesos trazables y cumplimiento normativo para garantizar precisión en cada instrumento." },
+                  { icon: <CheckCircle2 className="w-8 h-8 shrink-0" />, title: "Compromiso industrial", desc: "Equipos y protocolos listos para condiciones exigentes en la industria energética de la región." },
+                  { icon: <Activity className="w-8 h-8 shrink-0" />, title: "Soporte especializado", desc: "Reportes claros, tiempos comprometidos y asistencia técnica directa sin intermediarios." }
                 ].map((item, i) => (
-                  <div key={i} className="flex bg-brand-surface p-6 rounded-2xl border border-brand-muted/30 hover:border-brand-primary transition-all duration-300">
-                    <div className="bg-brand-primary text-white p-3 rounded-xl h-fit mr-4 shadow-md">
+                  <div key={i} className="flex bg-brand-surface p-5 sm:p-6 rounded-2xl border border-brand-muted/30 hover:border-brand-primary transition-all duration-300">
+                    <div className="bg-brand-primary text-white p-3 rounded-xl h-fit mr-4 shadow-md shrink-0">
                       {item.icon}
                     </div>
                     <div>
-                      <h3 className="text-xl font-black text-brand-dark uppercase">{item.title}</h3>
-                      <p className="text-brand-text opacity-90">{item.desc}</p>
+                      <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase leading-tight mb-1">{item.title}</h3>
+                      <p className="text-sm sm:text-base text-brand-text opacity-90 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
             
-            <div className="lg:w-1/2 relative">
+            <div className="w-full lg:w-1/2 relative px-2 sm:px-4 lg:px-0 mt-8 lg:mt-0">
               <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
                 <img 
                   src="https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&q=80&w=800" 
                   alt="Industrial High Tech Worker" 
-                  className="w-full h-[600px] object-cover"
+                  className="w-full h-[320px] sm:h-[450px] lg:h-[600px] object-cover"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/20 to-transparent"></div>
-                <div className="absolute bottom-8 left-8 right-8">
-                  <p className="text-white text-3xl font-black italic uppercase tracking-tighter">SEGURIDAD ANTE TODO</p>
-                  <p className="text-brand-secondary font-black tracking-widest uppercase text-sm">OPERACIONES EN NEUQUÉN</p>
+                <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8">
+                  <p className="text-white text-2xl sm:text-3xl font-black italic uppercase tracking-tighter">SEGURIDAD ANTE TODO</p>
+                  <p className="text-brand-secondary font-black tracking-widest uppercase text-xs sm:text-sm">OPERACIONES EN NEUQUÉN</p>
                 </div>
               </div>
-              <div className="absolute -bottom-6 -right-6 bg-brand-primary text-white px-8 py-5 rounded-2xl shadow-2xl font-black transform rotate-3 border-2 border-brand-secondary">
+              <div className="absolute -bottom-4 right-4 sm:-bottom-6 sm:-right-4 bg-brand-primary text-white px-5 py-3 sm:px-8 sm:py-5 rounded-2xl shadow-xl font-black transform rotate-3 border-2 border-brand-secondary text-sm sm:text-base tracking-wider uppercase">
                 TRAZABILIDAD TOTAL
               </div>
             </div>
@@ -406,22 +511,22 @@ export default function App() {
       </section>
 
       {/* How We Work */}
-      <section className="py-24 bg-brand-bg text-brand-dark">
+      <section className="py-16 sm:py-24 bg-brand-bg text-brand-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter">Cómo <span className="text-brand-primary">Trabajamos</span></h2>
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter">Cómo <span className="text-brand-primary">Trabajamos</span></h2>
             <p className="text-brand-text font-medium">Proceso ágil y transparente para tu comodidad en Neuquén.</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((step, idx) => (
-              <div key={idx} className="relative flex flex-col items-center text-center group">
-                <div className="w-16 h-16 bg-brand-surface border-2 border-brand-primary text-brand-primary rounded-full flex items-center justify-center text-2xl font-black mb-6 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300 shadow-md">
+              <div key={idx} className="relative flex flex-col items-center text-center group p-4 rounded-2xl bg-brand-surface/20 border border-brand-muted/10 sm:border-transparent">
+                <div className="w-16 h-16 bg-brand-surface border-2 border-brand-primary text-brand-primary rounded-full flex items-center justify-center text-2xl font-black mb-4 sm:mb-6 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300 shadow-md">
                   {step.num}
                 </div>
-                <p className="text-lg font-black uppercase tracking-tight">{step.text}</p>
+                <p className="text-base sm:text-lg font-black uppercase tracking-tight leading-snug">{step.text}</p>
                 {idx < 3 && (
-                  <div className="hidden md:block absolute top-8 left-[60%] w-full h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary opacity-30"></div>
+                  <div className="hidden lg:block absolute top-8 left-[60%] w-full h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary opacity-30"></div>
                 )}
               </div>
             ))}
@@ -461,11 +566,11 @@ export default function App() {
       </section>
 
       {/* Contact Form */}
-      <section id="contacto" className="py-24 bg-brand-bg text-brand-dark border-t border-brand-muted/20">
+      <section id="contacto" className="py-16 sm:py-24 bg-brand-bg text-brand-dark border-t border-brand-muted/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-brand-surface p-8 md:p-12 rounded-3xl border border-brand-muted shadow-xl">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-5xl font-black mb-4 uppercase tracking-tighter">Solicitá tu <span className="text-brand-primary">Presupuesto</span></h2>
+          <div className="bg-brand-surface p-6 sm:p-8 md:p-12 rounded-3xl border border-brand-muted shadow-xl">
+            <div className="text-center mb-8 sm:mb-10">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-4 uppercase tracking-tighter">Solicitá tu <span className="text-brand-primary">Presupuesto</span></h2>
               <p className="text-brand-text font-medium">Completá el formulario y te contactaremos por WhatsApp al instante brindando soporte en Vaca Muerta.</p>
             </div>
             
@@ -531,7 +636,7 @@ export default function App() {
                   onChange={(e) => setFormData({...formData, mensaje: e.target.value})}
                 ></textarea>
               </div>
-              <button type="submit" className="btn-primary w-full py-5 text-xl uppercase tracking-widest shadow-2xl">
+              <button type="submit" className="btn-primary w-full py-4 sm:py-5 text-lg sm:text-xl uppercase tracking-widest shadow-2xl">
                 Enviar consulta por WhatsApp <MessageCircle className="w-7 h-7" />
               </button>
             </form>
@@ -542,7 +647,7 @@ export default function App() {
       {/* Footer */}
       <footer className="py-20 bg-brand-dark text-white border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-2">
               <div className="mb-8 p-4 bg-white/5 rounded-2xl inline-block">
                 <Logo />
