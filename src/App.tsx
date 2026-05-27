@@ -76,7 +76,7 @@ const BG_STATIONS = [
   }
 ];
 
-const Logo = () => (
+const Logo = ({ isDark = true }: { isDark?: boolean }) => (
   <a href="https://infocemservices.com/" className="flex items-center gap-3 group">
     {/* SVG Custom High-tech Shield Logo Icon */}
     <div className="relative w-11 h-11 flex shrink-0">
@@ -100,7 +100,7 @@ const Logo = () => (
       </svg>
     </div>
     <div className="flex flex-col leading-none">
-      <div className="text-xl font-black tracking-tighter text-white group-hover:text-brand-primary transition-colors flex items-center">
+      <div className={`text-xl font-black tracking-tighter ${isDark ? 'text-white' : 'text-slate-900'} group-hover:text-brand-primary transition-colors flex items-center`}>
         <span>CEM</span>
         <span className="text-brand-primary">SERVICES</span>
       </div>
@@ -235,7 +235,7 @@ export default function App() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-md border-b border-white/10 shadow-lg">
+      <nav className={`fixed top-0 left-0 right-0 z-50 ${isDark ? 'bg-brand-dark/95 border-white/10' : 'bg-brand-surface/95 border-brand-muted/20'} backdrop-blur-md border-b shadow-lg transition-colors duration-500`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <motion.div 
@@ -243,7 +243,7 @@ export default function App() {
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center"
             >
-              <Logo />
+              <Logo isDark={isDark} />
             </motion.div>
             
             {/* Desktop Menu */}
@@ -255,7 +255,7 @@ export default function App() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                   href={`#${item.toLowerCase()}`} 
-                  className="text-sm font-bold text-white hover:text-brand-primary transition-colors relative group uppercase tracking-widest"
+                  className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'} hover:text-brand-primary transition-colors relative group uppercase tracking-widest`}
                 >
                   {item}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full"></span>
@@ -302,7 +302,7 @@ export default function App() {
                   <Moon className="w-5 h-5 text-brand-secondary" />
                 )}
               </button>
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white p-2">
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={`${isDark ? 'text-white' : 'text-slate-900'} p-2`}>
                 {isMenuOpen ? <X /> : <Menu />}
               </button>
             </div>
@@ -316,7 +316,7 @@ export default function App() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-brand-dark/95 border-b border-white/10 backdrop-blur-lg overflow-hidden"
+              className={`md:hidden ${isDark ? 'bg-brand-dark/95 border-white/10' : 'bg-brand-surface/95 border-brand-muted/20'} border-b backdrop-blur-lg overflow-hidden transition-colors`}
             >
               <div className="px-6 py-8 space-y-5">
                 {['servicios', 'diferencial', 'ubicacion', 'contacto'].map((sec) => (
@@ -324,7 +324,7 @@ export default function App() {
                     key={sec}
                     href={`#${sec}`} 
                     onClick={() => setIsMenuOpen(false)} 
-                    className="block text-xl font-black text-white uppercase tracking-wider hover:text-brand-primary transition-colors py-2 border-b border-white/5 last:border-0"
+                    className={`block text-xl font-black ${isDark ? 'text-white border-white/5' : 'text-brand-text border-slate-900/5'} uppercase tracking-wider hover:text-brand-primary transition-colors py-2 border-b last:border-0`}
                   >
                     {sec === 'ubicacion' ? 'Ubicación' : sec}
                   </a>
@@ -339,7 +339,7 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-[95vh] lg:min-h-screen flex flex-col justify-center pt-24 pb-12 overflow-hidden bg-brand-dark">
+      <section className="relative min-h-[95vh] lg:min-h-screen flex flex-col justify-center pt-24 pb-12 overflow-hidden bg-brand-bg transition-colors duration-500">
         {/* Background Video with Fallback Image and Overlay */}
         <div className="absolute inset-0 z-0">
           <video
@@ -363,8 +363,8 @@ export default function App() {
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#00c16515_1px,transparent_1px),linear-gradient(to_bottom,#00c16515_1px,transparent_1px)] bg-[size:32px_32px]"></div>
           {/* Crimson & Green subtle warning heat map layers for a realistic oilfield asset feel */}
           <div className="absolute top-[10%] left-[20%] w-[40vw] h-[40vw] rounded-full bg-[#00B450]/5 filter blur-[120px] pointer-events-none animate-pulse"></div>
-          {/* Gradient to transition from dark hero to light services background smoothly */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#F0F0F0] via-[#001428]/95 to-[#001428]/55"></div>
+          {/* Gradient to transition from dark/light hero to the rest of the page background smoothly */}
+          <div className={`absolute inset-0 bg-gradient-to-t ${isDark ? 'from-brand-bg via-[#001428]/95 to-[#001428]/55' : 'from-brand-bg via-white/80 to-white/30'} transition-all duration-500`}></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
@@ -376,13 +376,13 @@ export default function App() {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="bg-slate-950/70 border border-white/10 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl relative mb-8"
+                className={`border backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl relative mb-8 transition-colors duration-500 ${isDark ? 'bg-slate-950/70 border-white/10' : 'bg-white/85 border-brand-primary/25 shadow-brand-primary/5'}`}
               >
                 {/* Scientific target marks to emulate a digital monitoring telemetry window */}
-                <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-brand-secondary/50"></div>
-                <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-brand-secondary/50"></div>
-                <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-brand-secondary/50"></div>
-                <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-brand-secondary/50"></div>
+                <div className={`absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 ${isDark ? 'border-brand-secondary/50' : 'border-brand-primary/50'} transition-colors duration-500`}></div>
+                <div className={`absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 ${isDark ? 'border-brand-secondary/50' : 'border-brand-primary/50'} transition-colors duration-500`}></div>
+                <div className={`absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 ${isDark ? 'border-brand-secondary/50' : 'border-brand-primary/50'} transition-colors duration-500`}></div>
+                <div className={`absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 ${isDark ? 'border-brand-secondary/50' : 'border-brand-primary/50'} transition-colors duration-500`}></div>
 
                 <div className="inline-block mb-3">
                   <span className="badge-animated ring-4 ring-brand-primary/30 text-[10px] xs:text-xs sm:text-sm px-2.5 sm:px-4 py-1">
@@ -390,21 +390,21 @@ export default function App() {
                   </span>
                 </div>
                 
-                <h1 className="text-[1.5rem] xs:text-[1.9rem] sm:text-5xl md:text-5xl lg:text-[4.2rem] font-black leading-[1.2] sm:leading-[1.0] lg:leading-[0.9] mb-6 tracking-tighter text-white uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+                <h1 className={`text-[1.5rem] xs:text-[1.9rem] sm:text-5xl md:text-5xl lg:text-[4.2rem] font-black leading-[1.2] sm:leading-[1.0] lg:leading-[0.9] mb-6 tracking-tighter uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-colors duration-500 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Medir con <br />
-                  <span className="text-brand-secondary italic tracking-tight underline decoration-white decoration-2 sm:decoration-4 underline-offset-4 sm:underline-offset-8">Precisión,</span> <br />
+                  <span className={`italic tracking-tight underline decoration-2 sm:decoration-4 underline-offset-4 sm:underline-offset-8 transition-colors duration-500 ${isDark ? 'text-brand-secondary decoration-white' : 'text-brand-primary decoration-slate-900'}`}>Precisión,</span> <br />
                   operar con <br />
-                  <span className="text-brand-secondary italic tracking-tight underline decoration-white decoration-2 sm:decoration-4 underline-offset-4 sm:underline-offset-8">confianza.</span>
+                  <span className={`italic tracking-tight underline decoration-2 sm:decoration-4 underline-offset-4 sm:underline-offset-8 transition-colors duration-500 ${isDark ? 'text-brand-secondary decoration-white' : 'text-brand-primary decoration-slate-900'}`}>confianza.</span>
                 </h1>
                 
                 <div className="flex flex-col gap-2 mb-8">
-                  <p className="text-sm xs:text-base sm:text-xl md:text-2xl text-brand-secondary font-black italic uppercase tracking-tighter drop-shadow-md">
+                  <p className={`text-sm xs:text-base sm:text-xl md:text-2xl font-black italic uppercase tracking-tighter drop-shadow-md transition-colors duration-500 ${isDark ? 'text-brand-secondary' : 'text-brand-primary'}`}>
                     SOPORTE TÉCNICO & CALIBRACIÓN INDUSTRIAL
                   </p>
-                  <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 sm:gap-4 text-xs sm:text-sm font-bold text-white/90 uppercase tracking-widest leading-relaxed drop-shadow-sm">
+                  <div className={`flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 sm:gap-4 text-xs sm:text-sm font-bold uppercase tracking-widest leading-relaxed drop-shadow-sm transition-colors duration-500 ${isDark ? 'text-white/90' : 'text-slate-800'}`}>
                     <span>CUENCA NEUQUINA & PATAGONIA</span>
-                    <span className="hidden sm:inline-block w-2 h-2 rounded-full bg-brand-secondary shrink-0 animate-pulse"></span>
-                    <span className="text-brand-secondary font-black underline decoration-2 sm:decoration-4 underline-offset-2 sm:underline-offset-4">TRAZABILIDAD INTEGRAL</span>
+                    <span className={`hidden sm:inline-block w-2 h-2 rounded-full shrink-0 animate-pulse ${isDark ? 'bg-brand-secondary' : 'bg-brand-primary'}`}></span>
+                    <span className={`font-black underline decoration-2 sm:decoration-4 underline-offset-2 sm:underline-offset-4 transition-colors duration-500 ${isDark ? 'text-brand-secondary decoration-white' : 'text-brand-primary decoration-slate-800'}`}>TRAZABILIDAD INTEGRAL</span>
                   </div>
                 </div>
 
@@ -418,7 +418,7 @@ export default function App() {
                       <ArrowRight className="w-5 h-5" />
                     </motion.span>
                   </a>
-                  <a href="#servicios" className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 border-2 border-white text-white font-black rounded-lg hover:bg-white hover:text-brand-dark transition-all backdrop-blur-sm shadow-md text-base sm:text-lg">
+                  <a href="#servicios" className={`flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 border-2 font-black rounded-lg transition-all backdrop-blur-sm shadow-md text-base sm:text-lg ${isDark ? 'border-white text-white hover:bg-white hover:text-brand-dark' : 'border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white'}`}>
                     Ver Servicios
                   </a>
                 </div>
@@ -429,29 +429,29 @@ export default function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="w-full text-left p-1 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl"
+                className={`w-full text-left p-1 rounded-2xl border shadow-2xl transition-colors duration-500 ${isDark ? 'bg-white/10 border-white/20' : 'bg-slate-900/10 border-slate-900/10'} backdrop-blur-md`}
               >
-                <div className="px-4 py-2.5 flex items-center justify-between border-b border-white/15 bg-slate-950/40 rounded-t-2xl">
-                  <div className="flex items-center gap-2 text-xs font-bold text-white tracking-wider uppercase">
+                <div className={`px-4 py-2.5 flex items-center justify-between border-b rounded-t-2xl transition-all duration-500 ${isDark ? 'border-white/15 bg-slate-950/40 text-white' : 'border-slate-900/10 bg-white/60 text-slate-950'}`}>
+                  <div className="flex items-center gap-2 text-xs font-bold tracking-wider uppercase">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-secondary opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-secondary"></span>
                     </span>
-                    <span>SENTINEL FEED: <span className="text-brand-secondary">{activeBg.badge} ({activeBg.location})</span></span>
+                    <span>SENTINEL FEED: <span className="text-brand-primary">{activeBg.badge} ({activeBg.location})</span></span>
                   </div>
                   <div className="flex items-center gap-2">
                     {isAutoPlay && (
-                      <span className="text-[8px] text-brand-secondary bg-brand-primary/10 border border-brand-primary/30 px-1.5 py-0.5 rounded uppercase animate-pulse">
+                      <span className="text-[8px] text-brand-primary bg-brand-primary/10 border border-brand-primary/30 px-1.5 py-0.5 rounded uppercase animate-pulse">
                         Auto-Secuencia
                       </span>
                     )}
-                    <span className="text-[9px] font-mono text-white/70 uppercase tracking-widest bg-white/10 px-2 py-0.5 rounded border border-white/10">
+                    <span className={`text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border transition-colors duration-500 ${isDark ? 'text-white/70 bg-white/10 border-white/10' : 'text-slate-800 bg-slate-900/5 border-slate-900/10'}`}>
                       DIAG-CONSOLE
                     </span>
                   </div>
                 </div>
                 
-                <div className="p-2 grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-black/60 rounded-b-2xl">
+                <div className={`p-2 grid grid-cols-2 sm:grid-cols-4 gap-1.5 rounded-b-2xl transition-colors duration-500 ${isDark ? 'bg-black/60' : 'bg-white/90'}`}>
                   {BG_STATIONS.map((station, i) => {
                     const isActive = currentBgIdx === i;
                     return (
@@ -465,20 +465,22 @@ export default function App() {
                         className={`group px-2.5 py-2 rounded-xl text-left border transition-all duration-300 flex flex-col justify-between ${
                           isActive 
                             ? "bg-brand-primary text-slate-950 border-brand-secondary shadow-md scale-[1.02]" 
-                            : "bg-white/5 hover:bg-white/10 text-white/90 border-white/10 hover:border-brand-secondary/30"
+                            : isDark
+                              ? "bg-white/5 hover:bg-white/10 text-white/90 border-white/10 hover:border-brand-secondary/30"
+                              : "bg-slate-900/5 hover:bg-slate-900/10 text-slate-800 border-slate-900/10 hover:border-brand-primary/30"
                         }`}
                       >
                         <div className="flex items-center justify-between gap-1 w-full mb-1">
-                          <span className={`text-[9px] font-black uppercase tracking-wider truncate shrink-1 ${isActive ? "text-slate-950" : "text-white/60 group-hover:text-brand-primary"}`}>
+                          <span className={`text-[9px] font-black uppercase tracking-wider truncate shrink-1 ${isActive ? "text-slate-950" : isDark ? "text-white/60 group-hover:text-brand-primary" : "text-slate-700 group-hover:text-brand-primary"}`}>
                             {station.shortLabel}
                           </span>
                           {isActive ? (
                             <Eye className="w-3.5 h-3.5 text-slate-950 animate-pulse shrink-0" />
                           ) : (
-                            <Video className="w-3.5 h-3.5 text-white/40 group-hover:text-[#28F08C] transition-colors shrink-0" />
+                            <Video className={`w-3.5 h-3.5 transition-colors shrink-0 ${isDark ? "text-white/40 group-hover:text-[#28F08C]" : "text-slate-500 group-hover:text-brand-primary"}`} />
                           )}
                         </div>
-                        <p className={`text-[8px] leading-tight font-medium line-clamp-1 truncate ${isActive ? "text-slate-900/80" : "text-white/55"}`}>
+                        <p className={`text-[8px] leading-tight font-medium line-clamp-1 truncate ${isActive ? "text-slate-900/80" : isDark ? "text-white/55" : "text-slate-600"}`}>
                           {station.location}
                         </p>
                       </button>
