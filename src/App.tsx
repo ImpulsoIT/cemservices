@@ -33,48 +33,16 @@ import cemOgImage from './assets/images/cem_og_image_1779819629777.png';
 const WHATSAPP_LINK = "https://wa.link/p0czog";
 const WHATSAPP_FLOAT_LINK = "https://wa.link/p0czog";
 
-const BG_STATIONS = [
-  {
-    id: "vaca-muerta",
-    label: "POZO / DRILL VACA MUERTA",
-    shortLabel: "Vaca Muerta (Drone)",
-    desc: "Yacimiento en la estepa de Añelo, región núcleo de la cuenca neuquina.",
-    video: "https://player.vimeo.com/external/510850877.hd.mp4?s=d4f20387498c09a89c9fdcf6ec9bb2807e494a8f&profile_id=170&oauth2_token_id=57447761",
-    poster: "https://images.unsplash.com/photo-1441850688944-1b9bb48fc43c?auto=format&fit=crop&q=80&w=1920",
-    badge: "Drone Vaca Muerta",
-    location: "Añelo, Neuquén"
-  },
-  {
-    id: "extraccion",
-    label: "BOMBEO ACTIVO / CIGÜEÑA",
-    shortLabel: "Atardecer Industrial",
-    desc: "Cigüeña de extracción petrolera activa durante el atardecer patagónico.",
-    video: "https://player.vimeo.com/external/371433846.hd.mp4?s=2bc4b840e698188bd2f0fa9b93ee6fed15ae50f8&profile_id=174&oauth2_token_id=57447761",
-    poster: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1920",
-    badge: "Extracción Loma Campana",
-    location: "Cuenca Neuquina"
-  },
-  {
-    id: "refineria",
-    label: "PLANTA REGULADORA DE GAS",
-    shortLabel: "Planta de Gas & Petróleo",
-    desc: "Ductos de flujo, válvulas y colectores de gas natural en Plaza Huincul.",
-    video: "https://player.vimeo.com/external/459389137.hd.mp4?s=8039dfc823f6e1cca24c965ea4e411b43d3b7bbb&profile_id=170&oauth2_token_id=57447761",
-    poster: "https://images.unsplash.com/photo-1542060748-10c28b629f6f?auto=format&fit=crop&q=80&w=1920",
-    badge: "Procesamiento de Gas",
-    location: "Plaza Huincul, Neuquén"
-  },
-  {
-    id: "neuquen-capital",
-    label: "LOGÍSTICA Y BASE NEUQUÉN CAPITAL",
-    shortLabel: "Neuquén Capital (Base)",
-    desc: "Centro de soporte, calibración y distribución de detectores para toda la Patagonia.",
-    video: "https://player.vimeo.com/external/498263725.hd.mp4?s=4bbfe2fdf7ffb6b7cb0dfa908cfdff96a1da9a48&profile_id=174&oauth2_token_id=57447761",
-    poster: cemOgImage,
-    badge: "Lab Neuquén Capital",
-    location: "Neuquén Capital"
-  }
-];
+const HERO_VIDEO = {
+  id: "vaca-muerta",
+  label: "POZO / DRILL VACA MUERTA",
+  shortLabel: "Vaca Muerta (Drone)",
+  desc: "Yacimiento en la estepa de Añelo, región núcleo de la cuenca neuquina.",
+  video: "https://player.vimeo.com/external/510850877.hd.mp4?s=d4f20387498c09a89c9fdcf6ec9bb2807e494a8f&profile_id=170&oauth2_token_id=57447761",
+  poster: "https://images.unsplash.com/photo-1441850688944-1b9bb48fc43c?auto=format&fit=crop&q=80&w=1920",
+  badge: "Drone Vaca Muerta",
+  location: "Añelo, Neuquén"
+};
 
 const Logo = ({ isDark = true }: { isDark?: boolean }) => (
   <a href="https://infocemservices.com/" className="flex items-center gap-3 group">
@@ -113,9 +81,7 @@ const Logo = ({ isDark = true }: { isDark?: boolean }) => (
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentBgIdx, setCurrentBgIdx] = useState(0);
-  const [isAutoPlay, setIsAutoPlay] = useState(true);
-  const activeBg = BG_STATIONS[currentBgIdx];
+  const activeBg = HERO_VIDEO;
 
   const [isDark, setIsDark] = useState(() => {
     const saved = localStorage.getItem('cem_theme');
@@ -131,15 +97,6 @@ export default function App() {
       localStorage.setItem('cem_theme', 'light');
     }
   }, [isDark]);
-
-  // Auto-advance background feeds every 12 seconds for spectacular ambiance unless manually override
-  useEffect(() => {
-    if (!isAutoPlay) return;
-    const interval = setInterval(() => {
-      setCurrentBgIdx(prev => (prev + 1) % BG_STATIONS.length);
-    }, 12000);
-    return () => clearInterval(interval);
-  }, [isAutoPlay]);
 
   const [formData, setFormData] = useState({
     nombre: '',
@@ -421,71 +378,6 @@ export default function App() {
                   <a href="#servicios" className={`flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 border-2 font-black rounded-lg transition-all backdrop-blur-sm shadow-md text-base sm:text-lg ${isDark ? 'border-white text-white hover:bg-white hover:text-brand-dark' : 'border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white'}`}>
                     Ver Servicios
                   </a>
-                </div>
-              </motion.div>
-
-              {/* Interactive Camera Feeds (Vaca Muerta, Neuquén base) */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className={`w-full text-left p-1 rounded-2xl border shadow-2xl transition-colors duration-500 ${isDark ? 'bg-white/10 border-white/20' : 'bg-slate-900/10 border-slate-900/10'} backdrop-blur-md`}
-              >
-                <div className={`px-4 py-2.5 flex items-center justify-between border-b rounded-t-2xl transition-all duration-500 ${isDark ? 'border-white/15 bg-slate-950/40 text-white' : 'border-slate-900/10 bg-white/60 text-slate-950'}`}>
-                  <div className="flex items-center gap-2 text-xs font-bold tracking-wider uppercase">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-secondary opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-secondary"></span>
-                    </span>
-                    <span>SENTINEL FEED: <span className="text-brand-primary">{activeBg.badge} ({activeBg.location})</span></span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {isAutoPlay && (
-                      <span className="text-[8px] text-brand-primary bg-brand-primary/10 border border-brand-primary/30 px-1.5 py-0.5 rounded uppercase animate-pulse">
-                        Auto-Secuencia
-                      </span>
-                    )}
-                    <span className={`text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border transition-colors duration-500 ${isDark ? 'text-white/70 bg-white/10 border-white/10' : 'text-slate-800 bg-slate-900/5 border-slate-900/10'}`}>
-                      DIAG-CONSOLE
-                    </span>
-                  </div>
-                </div>
-                
-                <div className={`p-2 grid grid-cols-2 sm:grid-cols-4 gap-1.5 rounded-b-2xl transition-colors duration-500 ${isDark ? 'bg-black/60' : 'bg-white/90'}`}>
-                  {BG_STATIONS.map((station, i) => {
-                    const isActive = currentBgIdx === i;
-                    return (
-                      <button
-                        key={station.id}
-                        type="button"
-                        onClick={() => {
-                          setCurrentBgIdx(i);
-                          setIsAutoPlay(false); // Pause auto rotation upon user interaction
-                        }}
-                        className={`group px-2.5 py-2 rounded-xl text-left border transition-all duration-300 flex flex-col justify-between ${
-                          isActive 
-                            ? "bg-brand-primary text-slate-950 border-brand-secondary shadow-md scale-[1.02]" 
-                            : isDark
-                              ? "bg-white/5 hover:bg-white/10 text-white/90 border-white/10 hover:border-brand-secondary/30"
-                              : "bg-slate-900/5 hover:bg-slate-900/10 text-slate-800 border-slate-900/10 hover:border-brand-primary/30"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between gap-1 w-full mb-1">
-                          <span className={`text-[9px] font-black uppercase tracking-wider truncate shrink-1 ${isActive ? "text-slate-950" : isDark ? "text-white/60 group-hover:text-brand-primary" : "text-slate-700 group-hover:text-brand-primary"}`}>
-                            {station.shortLabel}
-                          </span>
-                          {isActive ? (
-                            <Eye className="w-3.5 h-3.5 text-slate-950 animate-pulse shrink-0" />
-                          ) : (
-                            <Video className={`w-3.5 h-3.5 transition-colors shrink-0 ${isDark ? "text-white/40 group-hover:text-[#28F08C]" : "text-slate-500 group-hover:text-brand-primary"}`} />
-                          )}
-                        </div>
-                        <p className={`text-[8px] leading-tight font-medium line-clamp-1 truncate ${isActive ? "text-slate-900/80" : isDark ? "text-white/55" : "text-slate-600"}`}>
-                          {station.location}
-                        </p>
-                      </button>
-                    );
-                  })}
                 </div>
               </motion.div>
             </div>
