@@ -305,7 +305,8 @@ export default function App() {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-75 filter brightness-[0.70] contrast-[1.20] saturate-[1.3] transition-opacity duration-1000"
+            src={activeBg.video}
+            className="w-full h-full object-cover opacity-90 filter brightness-[0.80] contrast-[1.10] saturate-[1.2] transition-opacity duration-1000"
             poster={activeBg.poster}
           >
             <source src={activeBg.video} type="video/mp4" />
@@ -317,11 +318,11 @@ export default function App() {
             />
           </video>
           {/* High-tech grid matrix overlay for an industrial monitoring aesthetic */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#00c16515_1px,transparent_1px),linear-gradient(to_bottom,#00c16515_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#00c16510_1px,transparent_1px),linear-gradient(to_bottom,#00c16510_1px,transparent_1px)] bg-[size:32px_32px]"></div>
           {/* Crimson & Green subtle warning heat map layers for a realistic oilfield asset feel */}
-          <div className="absolute top-[10%] left-[20%] w-[40vw] h-[40vw] rounded-full bg-[#00B450]/5 filter blur-[120px] pointer-events-none animate-pulse"></div>
+          <div className="absolute top-[10%] left-[20%] w-[40vw] h-[40vw] rounded-full bg-[#00B450]/10 filter blur-[120px] pointer-events-none animate-pulse"></div>
           {/* Gradient to transition from dark/light hero to the rest of the page background smoothly */}
-          <div className={`absolute inset-0 bg-gradient-to-t ${isDark ? 'from-brand-bg via-[#001428]/95 to-[#001428]/55' : 'from-brand-bg via-white/80 to-white/30'} transition-all duration-500`}></div>
+          <div className={`absolute inset-0 bg-gradient-to-t ${isDark ? 'from-brand-bg via-[#001428]/40 to-[#001428]/20' : 'from-brand-bg via-white/30 to-white/10'} transition-all duration-500`}></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
