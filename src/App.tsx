@@ -22,14 +22,16 @@ import {
   X,
   Mail,
   Video,
-  Eye
+  Eye,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import CalibrationSimulator from './components/CalibrationSimulator';
 import cemOgImage from './assets/images/cem_og_image_1779819629777.png';
 
-const WHATSAPP_LINK = "https://wa.link/62av5e";
-const WHATSAPP_FLOAT_LINK = "https://wa.link/ykyxe9";
+const WHATSAPP_LINK = "https://wa.link/p0czog";
+const WHATSAPP_FLOAT_LINK = "https://wa.link/p0czog";
 
 const BG_STATIONS = [
   {
@@ -114,6 +116,21 @@ export default function App() {
   const [currentBgIdx, setCurrentBgIdx] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const activeBg = BG_STATIONS[currentBgIdx];
+
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('cem_theme');
+    return saved === 'dark';
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark-mode');
+      localStorage.setItem('cem_theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+      localStorage.setItem('cem_theme', 'light');
+    }
+  }, [isDark]);
 
   // Auto-advance background feeds every 12 seconds for spectacular ambiance unless manually override
   useEffect(() => {
@@ -210,7 +227,7 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-brand-bg selection:bg-brand-primary selection:text-white">
+    <div className={`min-h-screen bg-brand-bg transition-colors duration-500 selection:bg-brand-primary selection:text-white ${isDark ? 'dark-mode' : ''}`}>
       {/* Background Glow Blobs */}
       <div className="glow-mesh opacity-20">
         <div className="glow-blob top-[-10%] left-[-10%] animate-drift bg-brand-primary/20" />
@@ -253,10 +270,38 @@ export default function App() {
               >
                 WhatsApp
               </motion.a>
+              
+              <motion.button
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ delay: 0.5 }}
+                onClick={() => setIsDark(!isDark)}
+                className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/10 hover:bg-white/15 text-white transition-colors border border-white/10 cursor-pointer shadow-md shadow-black/20 shrink-0"
+                title={isDark ? "Modo Claro" : "Modo Oscuro"}
+              >
+                {isDark ? (
+                  <Sun className="w-5 h-5 text-amber-400" />
+                ) : (
+                  <Moon className="w-5 h-5 text-brand-secondary" />
+                )}
+              </motion.button>
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center gap-3">
+              <button
+                onClick={() => setIsDark(!isDark)}
+                className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/10 text-white border border-white/10"
+                title={isDark ? "Modo Claro" : "Modo Oscuro"}
+              >
+                {isDark ? (
+                  <Sun className="w-5 h-5 text-amber-400" />
+                ) : (
+                  <Moon className="w-5 h-5 text-brand-secondary" />
+                )}
+              </button>
               <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white p-2">
                 {isMenuOpen ? <X /> : <Menu />}
               </button>
@@ -466,7 +511,7 @@ export default function App() {
       </section>
 
       {/* Services Grid */}
-      <section id="servicios" className="py-24 bg-brand-surface relative overflow-hidden text-brand-dark">
+      <section id="servicios" className="py-24 bg-brand-surface relative overflow-hidden text-brand-text">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -476,7 +521,7 @@ export default function App() {
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tighter uppercase">Nuestro <span className="text-brand-primary">Servicio</span></h2>
             <p className="text-brand-text max-w-2xl mx-auto text-base sm:text-lg mb-4 font-medium leading-relaxed">Asegurar precisión, trazabilidad y eficiencia en cada intervención. Integramos tecnología, método y experiencia para que tus operaciones en Neuquén trabajen con equipos confiables.</p>
-            <p className="text-brand-dark/60 max-w-2xl mx-auto text-sm sm:text-base italic font-bold">Nuestro enfoque es simple: cumplir normas, optimizar tiempos y acompañarte con soporte técnico claro.</p>
+            <p className="text-brand-text/60 max-w-2xl mx-auto text-sm sm:text-base italic font-bold">Nuestro enfoque es simple: cumplir normas, optimizar tiempos y acompañarte con soporte técnico claro.</p>
           </motion.div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -493,7 +538,7 @@ export default function App() {
                 <div className="mb-6 p-4 bg-brand-primary/5 rounded-2xl inline-block group-hover:bg-brand-primary group-hover:text-white transition-all duration-500">
                   {React.cloneElement(service.icon as React.ReactElement, { className: "w-10 h-10 transition-colors group-hover:text-white" })}
                 </div>
-                <h3 className="text-2xl font-black mb-4 text-brand-dark group-hover:text-brand-primary transition-colors uppercase tracking-tight">{service.title}</h3>
+                <h3 className="text-2xl font-black mb-4 text-brand-text group-hover:text-brand-primary transition-colors uppercase tracking-tight">{service.title}</h3>
                 <p className="text-brand-text leading-relaxed text-lg font-medium opacity-90">{service.desc}</p>
               </motion.div>
             ))}
@@ -502,7 +547,7 @@ export default function App() {
       </section>
 
       {/* Beneficios Section */}
-      <section id="diferencial" className="py-24 bg-brand-bg relative text-brand-dark border-t border-brand-muted/20">
+      <section id="diferencial" className="py-24 bg-brand-bg relative text-brand-text border-t border-brand-muted/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter">Beneficios de nuestro <span className="text-brand-primary">servicio</span></h2>
@@ -521,7 +566,7 @@ export default function App() {
                 <div className="p-6 rounded-full bg-brand-bg mb-6 group-hover:bg-brand-primary transition-all duration-500 group-hover:rotate-12 group-hover:shadow-lg">
                   {React.cloneElement(diff.icon as React.ReactElement, { className: "w-12 h-12 text-brand-primary group-hover:text-white transition-colors" })}
                 </div>
-                <h3 className="text-2xl font-black mb-2 tracking-tight text-brand-dark uppercase">{diff.title}</h3>
+                <h3 className="text-2xl font-black mb-2 tracking-tight text-brand-text uppercase">{diff.title}</h3>
                 <p className="text-brand-text text-base font-medium opacity-80">{diff.desc}</p>
               </motion.div>
             ))}
@@ -531,7 +576,7 @@ export default function App() {
 
       {/* Gases Section */}
       <section className="py-16 sm:py-24 bg-brand-surface border-y border-brand-muted/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-brand-dark">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-brand-text">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-10 sm:mb-12 uppercase tracking-tighter">Gases críticos que <span className="text-brand-primary">calibramos</span></h2>
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
             {gases.map((gas, idx) => (
@@ -548,7 +593,7 @@ export default function App() {
       </section>
 
       {/* Why Choose Us / ¿Por qué elegirnos? */}
-      <section className="py-16 sm:py-24 bg-brand-bg text-brand-dark border-t border-brand-muted/10">
+      <section className="py-16 sm:py-24 bg-brand-bg text-brand-text border-t border-brand-muted/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
             <div className="w-full lg:w-1/2">
@@ -568,7 +613,7 @@ export default function App() {
                       {item.icon}
                     </div>
                     <div>
-                      <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase leading-tight mb-1">{item.title}</h3>
+                      <h3 className="text-lg sm:text-xl font-black text-brand-text uppercase leading-tight mb-1">{item.title}</h3>
                       <p className="text-sm sm:text-base text-brand-text opacity-90 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
@@ -599,7 +644,7 @@ export default function App() {
       </section>
 
       {/* How We Work */}
-      <section className="py-16 sm:py-24 bg-brand-bg text-brand-dark">
+      <section className="py-16 sm:py-24 bg-brand-bg text-brand-text">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter">Cómo <span className="text-brand-primary">Trabajamos</span></h2>
@@ -623,7 +668,7 @@ export default function App() {
       </section>
 
       {/* Map Section */}
-      <section id="ubicacion" className="py-24 bg-brand-surface text-brand-dark">
+      <section id="ubicacion" className="py-24 bg-brand-surface text-brand-text">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black mb-4 uppercase tracking-tighter">Nuestra <span className="text-brand-primary">Ubicación</span></h2>
@@ -654,7 +699,7 @@ export default function App() {
       </section>
 
       {/* Contact Form */}
-      <section id="contacto" className="py-16 sm:py-24 bg-brand-bg text-brand-dark border-t border-brand-muted/20">
+      <section id="contacto" className="py-16 sm:py-24 bg-brand-bg text-brand-text border-t border-brand-muted/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-brand-surface p-6 sm:p-8 md:p-12 rounded-3xl border border-brand-muted shadow-xl">
             <div className="text-center mb-8 sm:mb-10">
@@ -665,7 +710,7 @@ export default function App() {
             <form onSubmit={handleFormSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-black text-brand-dark uppercase tracking-widest mb-2">Nombre Completo</label>
+                  <label className="block text-sm font-black text-brand-text uppercase tracking-widest mb-2">Nombre Completo</label>
                   <input 
                     required
                     type="text" 
@@ -676,7 +721,7 @@ export default function App() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-black text-brand-dark uppercase tracking-widest mb-2">Empresa</label>
+                  <label className="block text-sm font-black text-brand-text uppercase tracking-widest mb-2">Empresa</label>
                   <input 
                     required
                     type="text" 
@@ -689,7 +734,7 @@ export default function App() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-black text-brand-dark uppercase tracking-widest mb-2">Teléfono</label>
+                  <label className="block text-sm font-black text-brand-text uppercase tracking-widest mb-2">Teléfono</label>
                   <input 
                     required
                     type="tel" 
@@ -700,7 +745,7 @@ export default function App() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-black text-brand-dark uppercase tracking-widest mb-2">Tipo de equipo</label>
+                  <label className="block text-sm font-black text-brand-text uppercase tracking-widest mb-2">Tipo de equipo</label>
                   <select 
                     className="w-full bg-brand-bg border-2 border-brand-muted rounded-xl py-4 px-5 focus:border-brand-primary outline-none transition-colors appearance-none text-brand-text font-medium cursor-pointer"
                     value={formData.equipo}
@@ -715,7 +760,7 @@ export default function App() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-black text-brand-dark uppercase tracking-widest mb-2">Mensaje / Consulta</label>
+                <label className="block text-sm font-black text-brand-text uppercase tracking-widest mb-2">Mensaje / Consulta</label>
                 <textarea 
                   rows={4}
                   className="w-full bg-brand-bg border-2 border-brand-muted rounded-xl py-4 px-5 focus:border-brand-primary outline-none transition-colors resize-none text-brand-text font-medium"

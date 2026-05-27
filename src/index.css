@@ -4,11 +4,25 @@
   --color-brand-primary: #00B450;
   --color-brand-secondary: #28F08C;
   --color-brand-dark: #001428;
-  --color-brand-surface: #DCF0F0;
-  --color-brand-bg: #F0F0F0;
-  --color-brand-text: #141414;
-  --color-brand-muted: #B4B4B4;
+  --color-brand-surface: var(--brand-surface);
+  --color-brand-bg: var(--brand-bg);
+  --color-brand-text: var(--brand-text);
+  --color-brand-muted: var(--brand-muted);
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --brand-surface: #DCF0F0;
+  --brand-bg: #F0F0F0;
+  --brand-text: #141414;
+  --brand-muted: #B4B4B4;
+}
+
+.dark-mode {
+  --brand-surface: #081d33;
+  --brand-bg: #001428;
+  --brand-text: #ECF0F1;
+  --brand-muted: #3a526b;
 }
 
 @layer base {
@@ -16,7 +30,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-brand-bg text-brand-text antialiased font-sans overflow-x-hidden;
+    @apply bg-brand-bg text-brand-text antialiased font-sans overflow-x-hidden transition-colors duration-300;
   }
 }
 

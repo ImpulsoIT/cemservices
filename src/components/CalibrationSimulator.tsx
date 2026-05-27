@@ -305,7 +305,7 @@ export default function CalibrationSimulator() {
               Reiniciar
             </button>
             <a
-              href="https://wa.link/62av5e"
+              href="https://wa.link/p0czog"
               target="_blank"
               rel="noreferrer"
               className="bg-[#00B450] hover:bg-[#28F08C] text-slate-950 font-black py-3 px-4 rounded-xl transition-colors text-sm text-center flex items-center justify-center"
